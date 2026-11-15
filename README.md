@@ -13,3 +13,9 @@ npm run build    # gera o site em dist/
 - Projetos do portfólio: `src/lib/projects.ts` (fotos em `src/assets/projects/`)
 - Artigos: `src/content/blog/`
 - O endereço do site (`https://interiorez.com.br`) é definido em `astro.config.mjs`.
+
+## Publicação
+
+- Hospedado no GitHub Pages: cada push na `main` roda `.github/workflows/deploy.yml` e publica o site.
+- Domínio próprio em `public/CNAME` (`interiorez.com.br`); DNS na Cloudflare (proxy ligado, SSL "Full (strict)").
+- Sitemap: `/sitemap.xml` (gerado por `src/pages/sitemap.xml.ts`, aponta para o `sitemap-0.xml` do `@astrojs/sitemap`). O `robots.txt` aponta para ele.
