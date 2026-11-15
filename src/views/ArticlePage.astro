@@ -31,7 +31,7 @@ const schema = {
   <article class="page article">
       <header>
         <h1>{data.title}</h1>
-        <p class="article__meta"><time datetime={data.date.toISOString()}>{formatDate(data.date, lang)}</time> · {readingMinutes(article.body)} {t.minutes}{data.draft && ` · ${t.draft}`}</p>
+        <p class="article__meta"><time datetime={data.date.toISOString()}>{formatDate(data.date, lang)}</time> · {readingMinutes(article.body)} {t.minutes}</p>
       </header>
       <Image class="article__cover" src={photo(data.cover)} alt={data.coverAlt} widths={[640, 1024]} sizes="100vw" loading="eager" />
       <div class="prose"><Content /></div>

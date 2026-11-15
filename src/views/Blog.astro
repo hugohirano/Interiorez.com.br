@@ -20,7 +20,7 @@ const copy = lang === 'pt'
           <a class="row" href={articleHref(a.data.slug, lang)}>
             <h2>{a.data.title}</h2>
             <time datetime={a.data.date.toISOString()}>{formatDate(a.data.date, lang)}</time>
-            <p>{a.data.description}{a.data.draft && ` ${ui[lang].draft}.`}</p>
+            <p>{a.data.description}</p>
           </a>
         </li>
       ))}
