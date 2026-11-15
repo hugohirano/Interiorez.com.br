@@ -1,0 +1,43 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../lib/projects';
+import { SOCIAL, articleHref, ui } from '../lib/i18n';
+import { counterpart, formatDate, readingMinutes, type Article } from '../lib/articles';
+import { photo } from '../lib/images';
+
+interface Props { lang: Lang; article: Article }
+const { lang, article } = Astro.props;
+const t = ui[lang];
+const { data } = article;
+const { Content } = await render(article);
+const other = await counterpart(article);
+const altSlug = other?.data.slug ?? data.slug;
+const cta = lang === 'pt' ? 'Tem um projeto parecido em mente?' : 'Have a similar project in mind?';
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
+  inLanguage: lang === 'pt' ? 'pt-BR' : 'en',
+  author: { '@type': 'Organization', name: 'Interiorez' },
+  publisher: { '@type': 'Organization', name: 'Interiorez' },
+};
+---
+<Base lang={lang} title={`${data.title} | Interiorez`} description={data.description} type="article" active="blog" schema={schema} noindex={data.draft}
+  alternates={{ pt: articleHref(lang === 'pt' ? data.slug : altSlug, 'pt'), en: articleHref(lang === 'en' ? data.slug : altSlug, 'en') }}>
+  <article class="page article">
+      <header>
+        <h1>{data.title}</h1>
+        <p class="article__meta"><time datetime={data.date.toISOString()}>{formatDate(data.date, lang)}</time> · {readingMinutes(article.body)} {t.minutes}{data.draft && ` · ${t.draft}`}</p>
+      </header>
+      <Image class="article__cover" src={photo(data.cover)} alt={data.coverAlt} widths={[640, 1024]} sizes="100vw" loading="eager" />
+      <div class="prose"><Content /></div>
+      <aside class="article__end">
+        <p>{cta}</p>
+        <a class="link" href={SOCIAL.direct} rel="noopener">{t.start}</a>
+      </aside>
+  </article>
+</Base>

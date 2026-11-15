@@ -1,0 +1,71 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '@theme/theme.css';
+import Header from '@theme/Header.astro';
+import Footer from '@theme/Footer.astro';
+import type { Lang } from '../lib/projects';
+import { SOCIAL, base, htmlLang, ui, type Route } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+  alternates: Record<Lang, string>;
+  active?: Route;
+  image?: string;
+  type?: string;
+  schema?: object;
+  noindex?: boolean;
+}
+const { lang, title, description, alternates, active, image = `${base}/og.jpg`, type = 'website', schema, noindex = false } = Astro.props;
+const t = ui[lang];
+const site = Astro.site!;
+const canonical = new URL(alternates[lang], site);
+const business = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'Interiorez',
+  description,
+  url: new URL(alternates[lang], site).href,
+  image: new URL(`${base}/og.jpg`, site).href,
+  founder: { '@type': 'Person', name: 'Andreza Pinheiro', sameAs: [SOCIAL.linkedin] },
+  sameAs: [SOCIAL.instagram, SOCIAL.linkedin],
+};
+---
+<!doctype html>
+<html lang={htmlLang[lang]}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(alternates.pt, site)} />
+    <link rel="alternate" hreflang="en" href={new URL(alternates.en, site)} />
+    <link rel="alternate" hreflang="x-default" href={new URL(alternates.pt, site)} />
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="sitemap" href={`${base}/sitemap-index.xml`} />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Interiorez" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image, site)} />
+    <meta property="og:locale" content={lang === 'pt' ? 'pt_BR' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(schema ?? business)} />
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.skip}</a>
+    <Header lang={lang} active={active} alternates={alternates} />
+    <main id="main"><slot /></main>
+    <Footer lang={lang} />
+    <script>
+      import '../scripts/site.ts';
+      import '@theme/motion.ts';
+    </script>
+  </body>
+</html>

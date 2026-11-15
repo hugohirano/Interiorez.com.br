@@ -1,0 +1,10 @@
+---
+import ArticlePage from '../../../views/ArticlePage.astro';
+import { articles, type Article } from '../../../lib/articles';
+
+export async function getStaticPaths() {
+  return (await articles('en')).map((article) => ({ params: { slug: article.data.slug }, props: { article } }));
+}
+const { article } = Astro.props as { article: Article };
+---
+<ArticlePage lang="en" article={article} />

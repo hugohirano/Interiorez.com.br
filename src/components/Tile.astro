@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import type { Lang, Project } from '../lib/projects';
+import { photo } from '../lib/images';
+import { projectHref, ui } from '../lib/i18n';
+
+interface Props {
+  project: Project;
+  lang: Lang;
+  col?: number;
+  span?: number;
+  crop?: string;
+  photoIndex?: number;
+  sizes?: string;
+  heading?: 'h2' | 'h3';
+  hidden?: boolean;
+  [key: `data-${string}`]: string;
+}
+const { project, lang, col, span = 6, crop = '3 / 2', photoIndex = 0, sizes = '(max-width: 52rem) 100vw, 50vw', heading: Heading = 'h3', hidden = false, ...data } = Astro.props;
+const shown = project.photos[photoIndex];
+const image = photo(shown.key);
+const widths = [480, 800, 1200, Math.min(image.width, 1600)].filter((w) => w <= image.width);
+---
+<a class="tile" href={projectHref(project.slug, lang)} style={`${col ? `--col:${col};` : ''}--span:${span};--crop:${crop}`} hidden={hidden} {...data}>
+  <div class="tile__frame" transition:name={photoIndex === 0 ? `photo-${project.slug}` : undefined}>
+    <Image src={image} alt={shown.alt[lang]} widths={widths} sizes={sizes} loading="lazy" decoding="async" />
+  </div>
+  <div class="tile__cap">
+    <Heading>{project.title[lang]}{project.proposal && <span class="soft"> ({ui[lang].proposal})</span>}</Heading>
+    {project.place && <p>{project.place[lang]}</p>}
+  </div>
+</a>

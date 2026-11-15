@@ -1,0 +1,18 @@
+---
+import Base from '../layouts/Base.astro';
+import Enquiry from '../components/Enquiry.astro';
+import type { Lang } from '../lib/projects';
+import { alternates } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const copy = lang === 'pt'
+  ? { heading: 'Contato', title: 'Contato | Interiorez', description: 'Fale com o atelier Interiorez sobre o seu projeto de arquitetura e interiores.' }
+  : { heading: 'Contact', title: 'Contact | Interiorez', description: 'Talk to the Interiorez atelier about your architecture and interiors project.' };
+---
+<Base lang={lang} title={copy.title} description={copy.description} alternates={alternates('contact')} active="contact">
+  <section class="page">
+    <div class="intro"><h1>{copy.heading}</h1></div>
+    <div style="max-width:52rem;padding-bottom:clamp(4rem,8vw,8rem)"><Enquiry lang={lang} /></div>
+  </section>
+</Base>

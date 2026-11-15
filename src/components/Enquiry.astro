@@ -1,0 +1,46 @@
+---
+import type { Lang } from '../lib/projects';
+import { SOCIAL, sectorName, ui } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const f = ui[lang].form;
+const lead = lang === 'pt'
+  ? 'O atelier recebe pedidos pelo Direct do Instagram. Preencha aqui e sua mensagem fica pronta para enviar.'
+  : 'The atelier takes enquiries through Instagram messages. Fill this in and your message will be ready to send.';
+const sectors = ['residencial', 'comercial', 'corporativo'] as const;
+---
+<p class="contact__lead">{lead}</p>
+<form class="form" novalidate data-enquiry data-direct={SOCIAL.direct} data-need-name={f.needName} data-need-message={f.needMessage}
+  data-copied={f.copied} data-not-copied={f.notCopied} data-greeting={f.greeting} data-project-type={f.projectType} data-city-line={f.cityLine}>
+  <div class="field">
+    <label for="enq-name">{f.name}</label>
+    <input id="enq-name" name="name" type="text" autocomplete="name" required />
+  </div>
+  <div class="field">
+    <label for="enq-city">{f.city} <small>({f.optional})</small></label>
+    <input id="enq-city" name="city" type="text" autocomplete="address-level2" />
+  </div>
+  <fieldset class="field field--wide">
+    <legend>{f.type}</legend>
+    <div class="choices">
+      {sectors.map((s, i) => (
+        <label><input type="radio" name="type" value={sectorName[s][lang]} checked={i === 0} /><span>{sectorName[s][lang]}</span></label>
+      ))}
+    </div>
+  </fieldset>
+  <div class="field field--wide">
+    <label for="enq-message">{f.message}</label>
+    <small id="enq-message-hint">{f.messageHint}</small>
+    <textarea id="enq-message" name="message" required aria-describedby="enq-message-hint"></textarea>
+  </div>
+  <div class="form__end">
+    <button class="btn" type="submit">{f.submit}</button>
+    <p class="form__status" role="status" aria-live="polite" data-status></p>
+    <textarea class="form__copy" data-fallback hidden aria-label={f.message} readonly></textarea>
+  </div>
+</form>
+<div class="contact__links">
+  <a class="link" href={SOCIAL.instagram} rel="noopener">Instagram</a>
+  <a class="link" href={SOCIAL.linkedin} rel="noopener">LinkedIn</a>
+</div>

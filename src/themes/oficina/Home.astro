@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import Pic from '../../components/Pic.astro';
+import portrait from '../../assets/andreza.jpg';
+import { project, type Lang } from '../../lib/projects';
+import { SOCIAL, alternates, articleHref, href, projectHref, sectorName, ui } from '../../lib/i18n';
+import { articles, formatDate } from '../../lib/articles';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const recent = (await articles(lang)).slice(0, 3);
+const copy = lang === 'pt'
+  ? { title: 'Interiorez | Arquitetura e interiores', description: 'Atelier de arquitetura de interiores de Andreza Pinheiro. Projetos residenciais, comerciais e corporativos.', lines: ['Todo', 'espaço', 'pede forma.'], rail: ['Arquitetura & interiores', 'Residencial, comercial, corporativo', 'Interiorez'], index: 'Índice', about: 'Sobre nós', a: 'Seu projeto, nossa inspiração.', bio: ['Fundada por Andreza Pinheiro, arquiteta e designer de interiores com 9 anos de experiência, a INTERIOREZ é um atelier independente de arquitetura e interiores.', 'Com formação em Design de Interiores em Lisboa, Andreza construiu sua trajetória profissional entre o Brasil e Portugal, participando do desenvolvimento de projetos internacionais em países como Itália, Inglaterra, Espanha, entre outros.', 'Essa experiência internacional reflete-se na identidade do atelier, que combina estética, funcionalidade e personalidade para criar espaços únicos e alinhados às necessidades de cada cliente.'], portrait: 'Andreza Pinheiro, fundadora da Interiorez', blog: 'Artigos', contact: 'Contato', c1: 'Tem um projeto em vista?', c2: 'Comece por aqui.' }
+  : { title: 'Interiorez | Architecture and interiors', description: 'The interior architecture atelier of Andreza Pinheiro. Residential, commercial and corporate projects.', lines: ['Every', 'space asks', 'for form.'], rail: ['Architecture & interiors', 'Residential, commercial, corporate', 'Interiorez'], index: 'Index', about: 'About us', a: 'Your project, our inspiration.', bio: ['Founded by Andreza Pinheiro, an architect and interior designer with 9 years of experience, INTERIOREZ is an independent architecture and interiors atelier.', 'Trained in Interior Design in Lisbon, Andreza built her career between Brazil and Portugal, taking part in international projects in countries such as Italy, England and Spain, among others.', 'That international experience shapes the identity of the atelier, which combines aesthetics, function and personality to create unique spaces aligned with the needs of each client.'], portrait: 'Andreza Pinheiro, founder of Interiorez', blog: 'Articles', contact: 'Contact', c1: 'Have a project in view?', c2: 'Start here.' };
+// A fixed scatter so the opening is the same on every load.
+let n = 0;
+const scatter = (i: number) => `--i:${i};--x:${((i * 137) % 260) - 130}px;--y:${((i * 89) % 220) - 110}px;--r:${((i * 53) % 70) - 35}deg`;
+const plates = [{ s: 'fp-house', w: 7, c: '3 / 2' }, { s: 'lavabo', w: 5, c: '5 / 6' }];
+const list = ['suite-principal-portugal', 'ap-house', 'foros-de-salvaterra', 'villa-caffe', 'farmacias-portuguesas', 'cafeteria-vilamoura', 'holmes-place-lisboa', 'escritorio-advocacia', 'sala-de-vinhos'].map(project);
+---
+<Base lang={lang} title={copy.title} description={copy.description} alternates={alternates('home')}>
+  <section class="ov page">
+    <div class="ov__rail tag" aria-hidden="true">{copy.rail.map((r) => <span>{r}</span>)}</div>
+    <div class="ov__main">
+      <h1 aria-label={copy.lines.join(' ')}>
+        {copy.lines.map((line) => <span aria-hidden="true">{line.split(' ').map((word) => <><span class="wd">{[...word].map((ch) => <span class="l" style={scatter(n++)}>{ch}</span>)}</span>{' '}</>)}</span>)}
+      </h1>
+    </div>
+  </section>
+
+  <section class="page sec">
+    <h2>{copy.contact}</h2>
+    <div class="sec__m">
+      <p class="big"><em>{copy.c1}</em>{copy.c2}</p>
+      <p style="margin-top:1.25rem;display:flex;gap:1.75rem;flex-wrap:wrap"><a class="tlink" href={SOCIAL.direct} rel="noopener">{t.start}</a><a class="tlink" href={href('contact', lang)}>{t.nav.contact}</a></p>
+    </div>
+  </section>
+  <section class="page plates">
+    {plates.map(({ s, w, c }) => { const p = project(s); return (
+      <a class="plate" href={projectHref(s, lang)} style={`--s:${w};--c:${c}`}>
+        <div class="plate__f mk"><Pic k={p.photos[0].key} alt={p.photos[0].alt[lang]} sizes="(max-width: 52rem) 100vw, 58vw" /></div>
+        <div class="plate__c"><span>{p.title[lang]}</span><span>{sectorName[p.sector][lang]}</span></div>
+      </a>
+    ); })}
+  </section>
+
+  <section class="page idx" data-swap>
+    <h2 class="visually-hidden">{copy.index}</h2>
+    <ul class="idx__list">
+      {list.map((p, i) => (
+        <li>
+          <a href={projectHref(p.slug, lang)} data-to={p.slug} data-on={i === 0 ? '' : undefined}>
+            <strong>{p.title[lang]}</strong>
+            <em>{p.place?.[lang] ?? (p.proposal ? t.proposal : '')}</em>
+            <div class="idx__inline"><Pic k={p.photos[0].key} alt="" sizes="100vw" /></div>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <div class="idx__view mk" aria-hidden="true">
+      {list.map((p, i) => <div data-view={p.slug} data-on={i === 0 ? '' : undefined}><Pic k={p.photos[0].key} alt="" sizes="40vw" /></div>)}
+    </div>
+  </section>
+
+  <section class="page sec sec--tight">
+    <h2>{copy.blog}</h2>
+    <div class="sec__m">
+      <ul class="lst">
+        {recent.map((a) => <li><a href={articleHref(a.data.slug, lang)}><strong>{a.data.title}</strong><time datetime={a.data.date.toISOString()}>{formatDate(a.data.date, lang)}</time></a></li>)}
+      </ul>
+      <p style="margin-top:1rem"><a class="tlink" href={href('blog', lang)}>{t.allArticles}</a></p>
+    </div>
+  </section>
+  <section class="page sec about" id="sobre">
+    <h2>{copy.about}</h2>
+    <div class="about__f"><Image src={portrait} alt={copy.portrait} widths={[320, 480, portrait.width]} sizes="(max-width: 52rem) 100vw, 26vw" loading="lazy" decoding="async" /></div>
+    <div class="about__t">
+      <p class="big">{copy.a}</p>
+      {copy.bio.map((b) => <p>{b}</p>)}
+    </div>
+  </section>
+
+</Base>

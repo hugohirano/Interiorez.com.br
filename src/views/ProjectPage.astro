@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { projects, type Lang, type Project } from '../lib/projects';
+import { href, projectHref, sectorName, ui } from '../lib/i18n';
+import { photo } from '../lib/images';
+
+interface Props { lang: Lang; project: Project }
+const { lang, project } = Astro.props;
+const t = ui[lang];
+const index = projects.indexOf(project);
+const next = projects[(index + 1) % projects.length];
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: project.title[lang],
+  description: project.text[lang],
+  inLanguage: lang === 'pt' ? 'pt-BR' : 'en',
+  creator: { '@type': 'Organization', name: 'Interiorez' },
+};
+// A wide lead takes the row; a narrower lead sits beside the text. Paired photos share one crop.
+const [first, ...rest] = project.photos;
+const lead = photo(first.key);
+const side = lead.width / lead.height < 1.25;
+const others = rest.map((shown, n) => ({
+  shown,
+  image: photo(shown.key),
+  span: rest.length % 2 === 1 && n === 0 ? 12 : 6,
+}));
+const widths = (w: number) => [640, 1024, w].filter((x) => x <= w);
+---
+<Base lang={lang} title={`${project.title[lang]} | Interiorez`} description={project.text[lang]} active="portfolio" schema={schema}
+  alternates={{ pt: projectHref(project.slug, 'pt'), en: projectHref(project.slug, 'en') }}>
+  <div class="page">
+    {side ? (
+      <div class="project__top">
+        <figure transition:name={`photo-${project.slug}`}>
+          <Image src={lead} alt={first.alt[lang]} widths={widths(lead.width)} sizes="(max-width: 52rem) 100vw, 58vw" loading="eager" />
+        </figure>
+        <div class="project__side">
+          <h1>{project.title[lang]}</h1>
+          <p>{project.text[lang]}</p>
+          <dl class="facts">
+            <dt>{t.sector}</dt><dd>{sectorName[project.sector][lang]}</dd>
+            {project.place && <><dt>{t.place}</dt><dd>{project.place[lang]}</dd></>}
+            {project.proposal && <><dt>Status</dt><dd>{t.proposal}</dd></>}
+          </dl>
+        </div>
+      </div>
+    ) : (
+      <>
+        <div class="project__head">
+          <h1>{project.title[lang]}</h1>
+          <div class="project__text">
+            <p>{project.text[lang]}</p>
+            <dl class="facts">
+              <dt>{t.sector}</dt><dd>{sectorName[project.sector][lang]}</dd>
+              {project.place && <><dt>{t.place}</dt><dd>{project.place[lang]}</dd></>}
+              {project.proposal && <><dt>Status</dt><dd>{t.proposal}</dd></>}
+            </dl>
+          </div>
+        </div>
+        <figure style="margin:0 0 clamp(1rem,2vw,2rem)" transition:name={`photo-${project.slug}`}>
+          <Image src={lead} alt={first.alt[lang]} widths={widths(lead.width)} sizes="100vw" loading="eager" style="width:100%" />
+        </figure>
+      </>
+    )}
+    <div class="frames">
+      {others.map(({ shown, image, span }) => (
+        <figure class={span === 6 ? 'pair' : undefined} style={`--span:${span}`}>
+          <Image src={image} alt={shown.alt[lang]} widths={widths(image.width)} sizes={span === 12 ? '100vw' : '(max-width: 52rem) 100vw, 50vw'} loading="lazy" />
+        </figure>
+      ))}
+    </div>
+    <nav class="pager" aria-label={t.next}>
+      <a class="link" href={href('portfolio', lang)}>{t.back}</a>
+      <a class="link" href={projectHref(next.slug, lang)}>{t.next}: {next.title[lang]}</a>
+    </nav>
+  </div>
+</Base>

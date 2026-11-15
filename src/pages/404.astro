@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { href, ui } from '../lib/i18n';
+
+const t = ui.pt;
+---
+<Base lang="pt" title="Página não encontrada | Interiorez" description={t.notFoundBody} alternates={{ pt: '/', en: '/en/' }}>
+  <div class="page centered">
+    <h1>{t.notFound}</h1>
+    <p>{t.notFoundBody}</p>
+    <a class="btn" href={href('home', 'pt')}>{t.notFoundLink}</a>
+  </div>
+</Base>

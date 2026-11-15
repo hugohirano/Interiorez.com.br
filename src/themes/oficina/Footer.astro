@@ -1,0 +1,14 @@
+---
+import type { Lang } from '../../lib/projects';
+import { SOCIAL } from '../../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+---
+<footer class="ft page">
+  <span class="wm">Interiorez</span>
+  <button type="button" data-replay>{lang === 'pt' ? 'Rever abertura' : 'Replay opening'}</button>
+  <nav aria-label="Social">
+    <a href={SOCIAL.instagram} rel="noopener">Instagram</a>
+  </nav>
+</footer>

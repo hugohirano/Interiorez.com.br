@@ -1,0 +1,15 @@
+---
+import type { Lang } from '../../lib/projects';
+import { href, htmlLang, navItems, ui, type Route } from '../../lib/i18n';
+
+interface Props { lang: Lang; active?: Route; alternates: Record<Lang, string> }
+const { lang, active, alternates } = Astro.props;
+const other: Lang = lang === 'pt' ? 'en' : 'pt';
+---
+<header class="hd page">
+  <a class="lockup" href={href('home', lang)}><span class="wm">Interiorez</span><span>{lang === 'pt' ? 'arquitetura & interiores' : 'architecture & interiors'}</span></a>
+  <nav aria-label={lang === 'pt' ? 'Principal' : 'Main'}>
+    {navItems(lang).map((n) => <a href={n.href} aria-current={active === n.name ? 'page' : undefined}>{n.label}</a>)}
+    <span>{lang.toUpperCase()}&nbsp;/&nbsp;<a class="off" href={alternates[other]} hreflang={htmlLang[other]} lang={htmlLang[other]} aria-label={ui[lang].switchLang}>{ui[lang].switchShort}</a></span>
+  </nav>
+</header>

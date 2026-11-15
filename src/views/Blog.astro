@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import type { Lang } from '../lib/projects';
+import { alternates, articleHref, ui } from '../lib/i18n';
+import { articles, formatDate } from '../lib/articles';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const list = await articles(lang);
+const copy = lang === 'pt'
+  ? { title: 'Artigos sobre arquitetura e interiores | Interiorez', heading: 'Artigos', lead: 'Materiais, luz e decisões de projeto, explicados para quem vai construir ou reformar.' }
+  : { title: 'Articles on architecture and interiors | Interiorez', heading: 'Articles', lead: 'Materials, light and design decisions, explained for people about to build or renovate.' };
+---
+<Base lang={lang} title={copy.title} description={copy.lead} alternates={alternates('blog')} active="blog">
+  <div class="page" style="min-height:70svh">
+    <div class="intro"><h1>{copy.heading}</h1><p class="soft" style="margin-top:1rem;max-width:34em">{copy.lead}</p></div>
+    <ul class="rows" style="padding-bottom:clamp(4rem,8vw,8rem)">
+      {list.map((a) => (
+        <li>
+          <a class="row" href={articleHref(a.data.slug, lang)}>
+            <h2>{a.data.title}</h2>
+            <time datetime={a.data.date.toISOString()}>{formatDate(a.data.date, lang)}</time>
+            <p>{a.data.description}{a.data.draft && ` ${ui[lang].draft}.`}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import Tile from '../components/Tile.astro';
+import { projects, type Lang } from '../lib/projects';
+import { alternates, sectorName, ui } from '../lib/i18n';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = ui[lang];
+const copy = lang === 'pt'
+  ? { title: 'Projetos | Interiorez', heading: 'Projetos', description: 'Projetos e propostas residenciais, comerciais e corporativos do atelier Interiorez, de Andreza Pinheiro.', label: 'Filtrar por setor' }
+  : { title: 'Projects | Interiorez', heading: 'Projects', description: 'Residential, commercial and corporate projects and proposals by the Interiorez atelier of Andreza Pinheiro.', label: 'Filter by sector' };
+const sectors = ['residencial', 'comercial', 'corporativo'] as const;
+---
+<Base lang={lang} title={copy.title} description={copy.description} alternates={alternates('portfolio')} active="portfolio">
+  <div class="page">
+    <div class="intro">
+      <h1>{copy.heading}</h1>
+      <div class="filter" role="group" aria-label={copy.label}>
+        <button type="button" data-filter="all" aria-pressed="true">{t.all}</button>
+        {sectors.map((s) => <button type="button" data-filter={s} aria-pressed="false">{sectorName[s][lang]}</button>)}
+      </div>
+    </div>
+    <div class="gallery gallery--even">
+      {projects.map((p) => <Tile project={p} lang={lang} span={6} crop="3 / 2" heading="h2" data-sector={p.sector} />)}
+    </div>
+  </div>
+</Base>
