@@ -7,7 +7,7 @@ slug: material-samples-before-renovating
 translation: samples
 cover: lavabo
 coverAlt: "Powder room in dark wood with a green stone vanity and gold details"
-draft: true
+draft: false
 ---
 
 An image on a screen shows how a room could look. A sample in your hand shows how it will be. Before committing to a renovation, placing the materials side by side is one of the simplest ways to avoid expensive regrets.

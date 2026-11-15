@@ -7,7 +7,7 @@ slug: casacor-2026-less-minimalism-more-personality
 translation: casacor
 cover: suite-pt
 coverAlt: "Suite with navy panels, burgundy throw and dark wood"
-draft: true
+draft: false
 ---
 
 In a post about CASACOR 2026, the atelier highlighted rooms that feel like home, warmer and more expressive, with plenty of red and burgundy, timber, texture and references to past decades. One comeback in particular was celebrated: conversation pits, with sunken sofas.

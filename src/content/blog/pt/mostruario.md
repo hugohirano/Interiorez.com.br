@@ -7,7 +7,7 @@ slug: mostruario-de-materiais-antes-de-reformar
 translation: samples
 cover: lavabo
 coverAlt: "Lavabo em madeira escura com bancada de pedra verde e detalhes dourados"
-draft: true
+draft: false
 ---
 
 Uma imagem na tela mostra como um ambiente pode ficar. Uma amostra na mão mostra como ele vai ser. Antes de fechar uma reforma, reunir os materiais lado a lado é uma das formas mais simples de evitar arrependimentos caros.

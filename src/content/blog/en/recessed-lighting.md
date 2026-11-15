@@ -7,7 +7,7 @@ slug: planning-recessed-coves-and-led-strips
 translation: lighting
 cover: fp-suite
 coverAlt: "Suite with a curved headboard outlined by recessed light"
-draft: true
+draft: false
 ---
 
 Recessed light is one of the decisions that most changes how a room feels, and one of the hardest to correct later. Once a cove is closed and painted, moving a strip or a driver means breaking the finish.

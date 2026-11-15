@@ -7,7 +7,7 @@ slug: iluminacao-embutida-sancas-e-fitas-de-led
 translation: lighting
 cover: fp-suite
 coverAlt: "Suíte com cabeceira curva contornada por luz embutida"
-draft: true
+draft: false
 ---
 
 A luz embutida é uma das decisões que mais mudam a percepção de um ambiente, e também uma das mais difíceis de corrigir depois. Quando a sanca já está fechada e pintada, trocar a posição de uma fita ou o lugar de um driver significa quebrar acabamento.

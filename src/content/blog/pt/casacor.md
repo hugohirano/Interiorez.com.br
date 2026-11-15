@@ -7,7 +7,7 @@ slug: casacor-2026-menos-minimalismo-mais-personalidade
 translation: casacor
 cover: suite-pt
 coverAlt: "Suíte com painéis azul-marinho, manta bordô e madeira escura"
-draft: true
+draft: false
 ---
 
 Em publicação sobre a CASACOR 2026, o atelier destacou ambientes com "cara de casa", mais acolhedores e expressivos, com muito vermelho e bordô, madeira, texturas e referências de outras décadas. Um retorno em especial foi celebrado: os *conversation pits*, com sofás rebaixados.
