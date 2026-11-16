@@ -61,6 +61,13 @@ body { font-size: 0.8125rem; line-height: 1.6; }
 .sec__m { grid-column: 4 / -1; }
 .big { font: 400 clamp(1.625rem, 3vw, 2.75rem)/1.18 var(--serif); letter-spacing: -0.01em; max-width: 22em; }
 .big em { font-style: normal; color: var(--soft); display: block; }
+.cta__links { margin-top: 1.25rem; display: flex; gap: 1.75rem; flex-wrap: wrap; }
+@media (min-width: 52.01rem) {
+  .sec:has(> .cta) > h2 { grid-row: 1; }
+  .cta { grid-column: 1 / -1; grid-row: 1; text-align: center; }
+  .cta .big { margin-inline: auto; }
+  .cta__links { justify-content: center; }
+}
 .sec--tight { padding-bottom: clamp(2rem, 3.5vw, 3.5rem); }
 .lst { list-style: none; margin: 0; padding: 0; }
 .lst a { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0 1.5rem; padding-block: 0.5rem; border-bottom: 1px solid var(--line); align-items: baseline; }
