@@ -53,7 +53,7 @@ body { font-size: 0.8125rem; line-height: 1.6; }
 .idx__list a[data-on] strong, .idx__list a:hover strong { color: var(--ink); }
 .idx__list em { font-style: normal; color: var(--soft); text-align: right; }
 .idx__view { grid-column: 8 / -1; position: relative; align-self: stretch; background: #e4e4e4; }
-@media (min-width: 52.01rem) { .idx__list { align-self: start; margin-block: clamp(1.25rem, 2.5vw, 2.25rem); } }
+@media (min-width: 52.01rem) { .idx__list { align-self: start; margin-block: clamp(2.25rem, 4.5vw, 4rem); } }
 .idx__view div { position: absolute; inset: 0; visibility: hidden; }
 .idx__view div[data-on] { visibility: visible; }
 .idx__view img { width: 100%; height: 100%; object-fit: cover; }
