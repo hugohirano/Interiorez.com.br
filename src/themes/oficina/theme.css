@@ -64,7 +64,7 @@ body { font-size: 0.8125rem; line-height: 1.6; }
 .cta__links { margin-top: 1.25rem; display: flex; gap: 1.75rem; flex-wrap: wrap; }
 @media (min-width: 52.01rem) {
   .sec:has(> .cta) > h2 { grid-row: 1; }
-  .cta { grid-column: 1 / -1; grid-row: 1; text-align: center; }
+  .cta { grid-column: 1 / -1; grid-row: 1; text-align: center; padding-top: calc(clamp(4rem, 7vw, 7rem) - 1rem); }
   .cta .big { margin-inline: auto; }
   .cta__links { justify-content: center; }
 }
