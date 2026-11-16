@@ -18,6 +18,8 @@ const copy = lang === 'pt'
 let n = 0;
 const scatter = (i: number) => `--i:${i};--x:${((i * 137) % 260) - 130}px;--y:${((i * 89) % 220) - 110}px;--r:${((i * 53) % 70) - 35}deg`;
 const plates = [{ s: 'fp-house', w: 7, c: '3 / 2' }, { s: 'lavabo', w: 5, c: '5 / 6' }];
+// Colunas proporcionais ao formato de cada foto: mesma altura, sem cortar a imagem.
+const plateCols = plates.map(({ c }) => { const [w, h] = c.split('/').map(Number); return `${(w / h).toFixed(4)}fr`; }).join(' ');
 const list = ['suite-principal-portugal', 'ap-house', 'foros-de-salvaterra', 'villa-caffe', 'farmacias-portuguesas', 'cafeteria-vilamoura', 'holmes-place-lisboa', 'escritorio-advocacia', 'sala-de-vinhos'].map(project);
 ---
 <Base lang={lang} title={copy.title} description={copy.description} alternates={alternates('home')}>
@@ -37,7 +39,7 @@ const list = ['suite-principal-portugal', 'ap-house', 'foros-de-salvaterra', 'vi
       <p class="cta__links"><a class="tlink" href={SOCIAL.direct} rel="noopener">{t.start}</a><a class="tlink" href={href('contact', lang)}>{t.nav.contact}</a></p>
     </div>
   </section>
-  <section class="page plates">
+  <section class="page plates" style={`--cols:${plateCols}`}>
     {plates.map(({ s, w, c }) => { const p = project(s); return (
       <a class="plate" href={projectHref(s, lang)} style={`--s:${w};--c:${c}`}>
         <div class="plate__f mk"><Pic k={p.photos[0].key} alt={p.photos[0].alt[lang]} sizes="(max-width: 52rem) 100vw, 58vw" /></div>
