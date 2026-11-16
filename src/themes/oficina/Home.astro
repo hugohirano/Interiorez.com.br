@@ -68,7 +68,7 @@ const list = ['suite-principal-portugal', 'ap-house', 'foros-de-salvaterra', 'vi
 
   <section class="page sec sec--tight">
     <h2>{copy.blog}</h2>
-    <div class="sec__m">
+    <div class="sec__m sec__m--full">
       <ul class="lst">
         {recent.map((a) => <li><a href={articleHref(a.data.slug, lang)}><strong>{a.data.title}</strong><time datetime={a.data.date.toISOString()}>{formatDate(a.data.date, lang)}</time></a></li>)}
       </ul>
