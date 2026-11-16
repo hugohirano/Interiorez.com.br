@@ -12,7 +12,9 @@ const copy = lang === 'pt'
 ---
 <Base lang={lang} title={copy.title} description={copy.description} alternates={alternates('contact')} active="contact">
   <section class="page">
-    <div class="intro"><h1>{copy.heading}</h1></div>
-    <div style="max-width:52rem;padding-bottom:clamp(4rem,8vw,8rem)"><Enquiry lang={lang} /></div>
+    <div class="contact-page">
+      <div class="intro"><h1>{copy.heading}</h1></div>
+      <Enquiry lang={lang} />
+    </div>
   </section>
 </Base>
