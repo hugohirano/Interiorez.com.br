@@ -81,6 +81,11 @@ body { font-size: 0.8125rem; line-height: 1.6; }
 .about__f { grid-column: 4 / span 3; align-self: start; aspect-ratio: 4 / 5; overflow: hidden; background: #e4e4e4; }
 .about__f img { width: 100%; height: 100%; object-fit: cover; }
 .about__t { grid-column: 8 / -1; }
+@media (min-width: 52.01rem) {
+  .about__f { align-self: stretch; aspect-ratio: auto; position: relative; }
+  .about__f img { position: absolute; inset: 0; }
+  .about__t { align-self: start; }
+}
 .about__t p:not(.big) { font: 400 1.125rem/1.5 var(--serif); max-width: 32em; margin-top: 1em; }
 .about__t .big + p { margin-top: 1.5rem; }
 
